@@ -1,11 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../lib/axios';
 
-export const usePosts = () => {
+export const usePosts = (page: number, search: string) => {
   return useQuery({
-    queryKey: ['posts'],
+    queryKey: ['posts', page, search],
     queryFn: async () => {
-      const res = await api.get('/blog/get-all-blogs?page=1&limit=10');
+      const res = await api.get(
+        `/blog/get-all-blogs?page=${page}&limit=5&search=${search}`
+      );
       return res.data;
     },
   });
@@ -44,10 +46,21 @@ export const useUpdatePost = () => {
       id: string;
       data: { title: string; content: string };
     }) => {
-      return api.put(`/blog/update-blog/${id}`, data);
+      await api.put(`/blog/update-blog/${id}`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
+  });
+};
+
+export const usePostById = (id: string) => {
+  return useQuery({
+    queryKey: ['post', id],
+    queryFn: async () => {
+      const res = await api.get(`/blog/get-specific-blog/${id}`);
+      return res.data;
+    },
+    enabled: !!id,
   });
 };

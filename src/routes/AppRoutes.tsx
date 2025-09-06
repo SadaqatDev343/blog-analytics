@@ -2,9 +2,10 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import SignIn from '../pages/Auth/SignIn';
 import SignUp from '../pages/Auth/SignUp';
 import Dashboard from '../pages/Dashboard';
-import PostList from '../pages/Posts/PostList';
+
 import AddPost from '../pages/Posts/AddPost';
 import ProtectedRoute from './ProtectedRoute';
+import PostDetail from '../pages/Posts/PostDetail';
 
 function AppRoutes() {
   return (
@@ -23,10 +24,10 @@ function AppRoutes() {
         }
       />
       <Route
-        path='/posts'
+        path='/post/:id'
         element={
           <ProtectedRoute>
-            <PostList />
+            <PostDetail />
           </ProtectedRoute>
         }
       />
