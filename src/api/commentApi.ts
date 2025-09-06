@@ -6,6 +6,9 @@ export interface ICreateComment {
   comment: string;
   commentor: string;
 }
+export interface IUpdateComment {
+  comment: string;
+}
 
 export const useAddComment = () => {
   const queryClient = useQueryClient();
@@ -30,5 +33,27 @@ export const usePostWithComments = (id: string) => {
       return blog;
     },
     enabled: !!id,
+  });
+};
+
+export const useUpdateComment = (postId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, comment }: { id: string; comment: string }) =>
+      api.put(`/comment/update-comment/${id}`, { comment }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['postWithComments', postId] });
+    },
+  });
+};
+
+export const useDeleteComment = (postId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) =>
+      api.delete(`/comment/delete-comment/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['postWithComments', postId] });
+    },
   });
 };
