@@ -15,7 +15,7 @@ export const useAddComment = () => {
       api.post(`/comment/add-comment`, newComment),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ['comment', variables.blog],
+        queryKey: ['postWithComments', variables.blog],
       });
     },
   });
