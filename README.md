@@ -1,69 +1,51 @@
-# React + TypeScript + Vite
+# Blog Analytics Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack blog management and analytics dashboard built with **React**, **Vite**, **Express**, and **MongoDB**. This project allows users to create, update, delete, and view blog posts with comments, and provides analytics for top authors, most commented posts, and posts per day.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+### Blog Management
+- Add, edit, and delete blog posts
+- View all posts in a paginated list
+- View individual post details with comments
+- Edit and delete posts only by their authors
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Comment Management
+- Add, edit, and delete comments on posts
+- Only comment authors can edit or delete their comments
+- Comment count displayed on posts
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Analytics Dashboard
+- Top authors (table)
+- Most commented posts (list)
+- Posts per day (bar chart)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Tech Stack
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Frontend:** React, TypeScript, Vite, TailwindCSS, React Query, React Router
+- **Charts & Icons:** react-chartjs-2, Chart.js, lucide-react
+- **Backend:** Node.js, Express
+- **Database:** MongoDB
+- **API:** RESTful API for posts, comments, and analytics
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Getting Started
+
+### Prerequisites
+
+- Node.js >= 18
+- npm or yarn
+- MongoDB running locally or a cloud instance
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/SadaqatDev343/blog-analytics
+cd blog-analytics
