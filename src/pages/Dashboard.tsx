@@ -47,23 +47,22 @@ export default function Dashboard() {
 
   return (
     <div className='p-6 space-y-8'>
-      {/* Header */}
-      <div className='flex justify-between items-center mb-6'>
+      <div>
         <h1 className='text-2xl font-bold'>Dashboard</h1>
-        <button
-          onClick={logout}
-          className='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600'
-        >
-          Logout
-        </button>
+        <h2 className='text-xl font-semibold mb-2'>Most Commented Posts</h2>
+        {loadingPosts ? (
+          <p>Loading top posts...</p>
+        ) : (
+          <ul className='list-disc pl-5'>
+            {topPosts?.map((p: any) => (
+              <li key={p._id}>
+                {p.title} ({p.commentCount} comments)
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-
-      {/* Add Post & Post List */}
-      <AddPostForm />
-      <PostList />
-
-      {/* Analytics Section */}
-      <div className='space-y-6'>
+      <div className='space-y-6 mb-2'>
         {/* Top Authors */}
         <div>
           <h2 className='text-xl font-semibold mb-2'>Top Authors</h2>
@@ -90,32 +89,26 @@ export default function Dashboard() {
             </table>
           )}
         </div>
+      </div>
+      <div>
+        <h2 className='text-xl font-semibold mb-2'>Posts per Day</h2>
+        {loadingPostsPerDay ? (
+          <p>Loading chart...</p>
+        ) : (
+          <Bar data={chartData} />
+        )}
+      </div>
 
-        {/* Most Commented Posts */}
-        <div>
-          <h2 className='text-xl font-semibold mb-2'>Most Commented Posts</h2>
-          {loadingPosts ? (
-            <p>Loading top posts...</p>
-          ) : (
-            <ul className='list-disc pl-5'>
-              {topPosts?.map((p: any) => (
-                <li key={p._id}>
-                  {p.title} ({p.commentCount} comments)
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+      <AddPostForm />
+      <PostList />
 
-        {/* Posts Per Day Chart */}
-        <div>
-          <h2 className='text-xl font-semibold mb-2'>Posts per Day</h2>
-          {loadingPostsPerDay ? (
-            <p>Loading chart...</p>
-          ) : (
-            <Bar data={chartData} />
-          )}
-        </div>
+      <div className='p-6 space-y-8 px-4 py-2'>
+        <button
+          onClick={logout}
+          className='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600'
+        >
+          Logout
+        </button>
       </div>
     </div>
   );

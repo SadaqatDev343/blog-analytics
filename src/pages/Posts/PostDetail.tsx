@@ -11,6 +11,11 @@ interface ICommentor {
   name: string;
   email: string;
 }
+interface IAuthor {
+  _id: string;
+  name: string;
+  email: string;
+}
 
 interface IComment {
   _id: string;
@@ -24,7 +29,7 @@ interface IBlog {
   _id: string;
   title: string;
   content: string;
-  author: string;
+  author: IAuthor;
   comments: IComment[];
   commentCount: number;
 }
@@ -38,7 +43,7 @@ const fetchBlogWithComments = async (
 
 export default function PostDetail() {
   const { id } = useParams<{ id: string }>();
-  const { user } = useAuth(); // logged-in user
+  const { user } = useAuth();
 
   const {
     data: post,
@@ -54,7 +59,6 @@ export default function PostDetail() {
   const updateComment = useUpdateComment(post?._id || '');
   const deleteComment = useDeleteComment(post?._id || '');
 
-  // state to track editing for each comment
   const [commentStates, setCommentStates] = useState<{
     [key: string]: { isEditing: boolean; editText: string };
   }>({});
@@ -105,7 +109,7 @@ export default function PostDetail() {
 
       <h1 className='text-2xl font-bold mb-2'>{post.title}</h1>
       <p className='text-gray-700 mb-4'>{post.content}</p>
-      <p className='text-sm text-gray-500'>Author ID: {post.author}</p>
+      <p className='text-sm text-gray-500'>Author ID: {post.author._id}</p>
 
       <h2 className='text-xl font-semibold mt-6 mb-2'>
         Comments ({post.commentCount})
@@ -159,28 +163,32 @@ export default function PostDetail() {
                     </>
                   ) : (
                     <>
-                      <button
-                        onClick={() => handleEditClick(c)}
-                        className='text-blue-500 hover:underline'
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (
-                            confirm(
-                              'Are you sure you want to delete this comment?'
-                            )
-                          ) {
-                            deleteComment.mutate(c._id, {
-                              onSuccess: () => refetch(),
-                            });
-                          }
-                        }}
-                        className='text-red-500 hover:underline'
-                      >
-                        Delete
-                      </button>
+                      {c.commentor._id === user?.id && (
+                        <>
+                          <button
+                            onClick={() => handleEditClick(c)}
+                            className='text-blue-500 hover:underline'
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (
+                                confirm(
+                                  'Are you sure you want to delete this comment?'
+                                )
+                              ) {
+                                deleteComment.mutate(c._id, {
+                                  onSuccess: () => refetch(),
+                                });
+                              }
+                            }}
+                            className='text-red-500 hover:underline'
+                          >
+                            Delete
+                          </button>
+                        </>
+                      )}
                     </>
                   )}
                 </div>
